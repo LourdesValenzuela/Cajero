@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Rol {
+  ADMIN
+  CAJERO
+}
+
+enum EstadoVenta {
+  COMPLETADA
+  ANULADA
+}
+
+enum TipoMovimiento {
+  ENTRADA
+  VENTA
+  AJUSTE
+}
+
+model Usuario {
+  id        String   @id @default(uuid()) @db.Uuid
+  nombre    String   @db.VarChar(100)
+  apellido  String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(150)
+  password  String   @db.VarChar(255)
+  rol       Rol
+  activo    Boolean  @default(true)
+  creadoEn  DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  ventas      Venta[]
+  movimientos MovimientoStock[]
+
+  @@map("usuarios")
+}
+
+model Categoria {
+  id          String   @id @default(uuid()) @db.Uuid
+  nombre      String   @unique @db.VarChar(100)
+  descripcion String?  @db.VarChar(255)
+  activo      Boolean  @default(true)
+  creadoEn    DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  productos Producto[]
+
+  @@map("categorias")
+}
+
+model Producto {
+  id            String   @id @default(uuid()) @db.Uuid
+  codigoBarras  String   @unique @map("codigo_barras") @db.VarChar(50)
+  nombre        String   @db.VarChar(150)
+  precio        Decimal  @db.Decimal(12, 2)
+  stock         Int      @default(0)
+  stockMinimo   Int      @default(0) @map("stock_minimo")
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+  actualizadoEn DateTime @updatedAt @map("actualizado_en") @db.Timestamptz(6)
+
+  categoriaId String    @map("categoria_id") @db.Uuid
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+
+  detalles    DetalleVenta[]
+  movimientos MovimientoStock[]
+
+  @@map("productos")
+}
+
+model Venta {
+  id            String      @id @default(uuid()) @db.Uuid
+  total         Decimal     @db.Decimal(12, 2)
+  montoRecibido Decimal     @map("monto_recibido") @db.Decimal(12, 2)
+  vuelto        Decimal     @db.Decimal(12, 2)
+  estado        EstadoVenta @default(COMPLETADA)
+  fecha         DateTime    @default(now()) @db.Timestamptz(6)
+
+  usuarioId String  @map("usuario_id") @db.Uuid
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  detalles DetalleVenta[]
+
+  @@map("ventas")
+}
+
+model DetalleVenta {
+  id             String  @id @default(uuid()) @db.Uuid
+  cantidad       Int
+  precioUnitario Decimal @map("precio_unitario") @db.Decimal(12, 2)
+  subtotal       Decimal @db.Decimal(12, 2)
+
+  ventaId String @map("venta_id") @db.Uuid
+  venta   Venta  @relation(fields: [ventaId], references: [id])
+
+  productoId String   @map("producto_id") @db.Uuid
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@map("detalles_venta")
+}
+
+model MovimientoStock {
+  id       String         @id @default(uuid()) @db.Uuid
+  tipo     TipoMovimiento
+  cantidad Int
+  motivo   String?        @db.VarChar(255)
+  creadoEn DateTime       @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  productoId String   @map("producto_id") @db.Uuid
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  usuarioId String  @map("usuario_id") @db.Uuid
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  @@map("movimientos_stock")
+}
