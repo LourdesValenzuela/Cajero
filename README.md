@@ -36,6 +36,34 @@ Cajero/
 
 Cada parte contiene su propio README con instrucciones de configuración y ejecución.
 
+## Demo
+
+La aplicación se encuentra desplegada en:
+
+https://cajero-six.vercel.app
+
+Para probar las funcionalidades se encuentran disponibles dos cuentas de demostración:
+
+### Administrador
+
+**Correo:** admin@gmail.com  
+**Contraseña:** Admin123
+
+Permite acceder al dashboard y a las funciones de administración, ventas, productos, inventario, historial y usuarios.
+
+### Cajero
+
+**Correo:** ana@cajero.com  
+**Contraseña:** 123456
+
+Permite realizar ventas y acceder a las funciones disponibles para el rol CAJERO.
+
+## API
+
+El backend se encuentra desplegado en Render:
+
+https://cajero-api-rml1.onrender.com
+
 ## Autor
 
 Lourdes Valenzuela

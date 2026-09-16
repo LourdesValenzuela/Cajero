@@ -8,6 +8,8 @@ import {
   EyeOff,
   Package,
   ShoppingCart,
+  ShieldCheck,
+  UserRound,
 } from "lucide-react";
 
 import { login } from "../services/api";
@@ -21,6 +23,15 @@ function LoginPage() {
   const [cargando, setCargando] = useState(false);
 
   const navigate = useNavigate();
+
+  const usarCuentaDemo = (
+    emailDemo: string,
+    passwordDemo: string
+  ) => {
+    setEmail(emailDemo);
+    setPassword(passwordDemo);
+    setError("");
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -138,7 +149,7 @@ function LoginPage() {
         <section className="flex items-center justify-center px-5 py-10 sm:px-8">
           <div className="w-full max-w-md">
             {/* Marca para pantallas pequeñas */}
-            <div className="mb-10 flex items-center gap-3 lg:hidden">
+            <div className="mb-8 flex items-center gap-3 lg:hidden">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white">
                 <ShoppingCart size={22} />
               </div>
@@ -154,7 +165,7 @@ function LoginPage() {
               </div>
             </div>
 
-            <div className="mb-8">
+            <div className="mb-6">
               <p className="text-sm font-semibold text-blue-600">
                 Bienvenido
               </p>
@@ -166,6 +177,74 @@ function LoginPage() {
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 Ingresa tus datos para acceder al sistema.
               </p>
+            </div>
+
+            {/* Cuentas de demostración */}
+            <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50/60 p-4">
+              <div className="mb-3">
+                <p className="text-sm font-semibold text-slate-800">
+                  Accesos de demostración
+                </p>
+
+                <p className="mt-1 text-xs text-slate-500">
+                  Selecciona un rol para completar los datos
+                  de acceso.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    usarCuentaDemo(
+                      "admin@gmail.com",
+                      "Admin123"
+                    )
+                  }
+                  className="rounded-lg border border-slate-200 bg-white p-3 text-left transition hover:border-blue-300 hover:bg-blue-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck
+                      size={17}
+                      className="text-blue-600"
+                    />
+
+                    <span className="text-sm font-semibold text-slate-800">
+                      Administrador
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-xs text-slate-500">
+                    Acceso completo
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    usarCuentaDemo(
+                      "ana@cajero.com",
+                      "123456"
+                    )
+                  }
+                  className="rounded-lg border border-slate-200 bg-white p-3 text-left transition hover:border-blue-300 hover:bg-blue-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <UserRound
+                      size={17}
+                      className="text-blue-600"
+                    />
+
+                    <span className="text-sm font-semibold text-slate-800">
+                      Cajero
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-xs text-slate-500">
+                    Acceso operativo
+                  </p>
+                </button>
+              </div>
             </div>
 
             <form
@@ -267,8 +346,8 @@ function LoginPage() {
 
             <div className="mt-8 border-t border-slate-200 pt-6 text-center">
               <p className="text-xs leading-5 text-slate-400">
-                ¿No tienes acceso? Solicita una cuenta al
-                administrador del sistema.
+                Proyecto de demostración de un sistema de
+                punto de venta.
               </p>
             </div>
           </div>

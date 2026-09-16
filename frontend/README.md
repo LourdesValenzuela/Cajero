@@ -42,8 +42,19 @@ Vite utiliza por defecto `http://localhost:5173`.
 
 ## Acceso por roles
 
-**ADMIN:** al iniciar sesión accede al Dashboard y puede gestionar ventas, productos, inventario y usuarios.
+La aplicación cuenta con dos roles:
 
-**CAJERO:** al iniciar sesión accede directamente a Nueva Venta y puede consultar productos e historial.
+**ADMIN:** accede al Dashboard y puede gestionar ventas, productos, inventario y usuarios.
 
-La autorización de las operaciones protegidas se valida en el backend.
+**CAJERO:** accede directamente a Nueva Venta y dispone únicamente de las funciones correspondientes a su rol.
+
+Para la versión de demostración están disponibles:
+
+```text
+ADMIN
+Correo: admin@gmail.com
+Contraseña: Admin123
+
+CAJERO
+Correo: ana@cajero.com
+Contraseña: 123456
