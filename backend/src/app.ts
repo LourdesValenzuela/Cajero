@@ -12,9 +12,14 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+const origenesPermitidos = [
+  "http://localhost:5173",
+  "https://cajero-six.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: origenesPermitidos,
   })
 );
 
