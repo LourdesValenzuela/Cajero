@@ -1,18 +1,22 @@
 import express from "express";
+import cors from "cors";
+
 import categoriaRoutes from "./routes/categoria.routes";
 import productoRoutes from "./routes/producto.routes";
 import usuarioRoutes from "./routes/usuario.routes";
 import ventaRoutes from "./routes/venta.routes";
 import movimientoStockRoutes from "./routes/movimientoStock.routes";
 import authRoutes from "./routes/auth.routes";
-import cors from "cors";
 
 const app = express();
-const PORT = 3000;
 
-app.use(cors({
-  origin: "http://localhost:5173",
-}));
+const PORT = process.env.PORT || 3000;
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 app.use(express.json());
 
@@ -30,5 +34,5 @@ app.use("/api/movimientos-stock", movimientoStockRoutes);
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });

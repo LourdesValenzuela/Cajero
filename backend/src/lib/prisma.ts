@@ -10,14 +10,17 @@ if (!connectionString) {
   throw new Error("DATABASE_URL no está definida");
 }
 
+const url = new URL(connectionString);
+url.searchParams.delete("sslmode");
+
+const rutaCertificado = process.env.RENDER
+  ? "/etc/secrets/ca.pem"
+  : path.resolve(process.cwd(), "certs", "ca.pem");
+
 const ca = fs.readFileSync(
-  path.resolve(process.cwd(), "certs", "ca.pem"),
+  rutaCertificado,
   "utf8"
 );
-
-const url = new URL(connectionString);
-
-url.searchParams.delete("sslmode");
 
 const adapter = new PrismaPg({
   connectionString: url.toString(),
